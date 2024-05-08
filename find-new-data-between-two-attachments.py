@@ -84,17 +84,17 @@ def get_latest_unique_data(folder_path):
     csv_files = [os.path.join(folder_path, f) for f in files if f.endswith('.csv')]
     if not csv_files:
         return None
-    df_old=pd.read_csv(min(csv_files, key=lambda f: os.path.getmtime(f))) #Previous file
-    df_new=pd.read_csv(max(csv_files, key=lambda f: os.path.getmtime(f))) #New file with some new data
+    df_old=pd.read_csv(min(csv_files, key=lambda f: os.path.getmtime(f))) # Previous file
+    df_new=pd.read_csv(max(csv_files, key=lambda f: os.path.getmtime(f))) # New file with some new data
     s = set(df_new['ID']) # Assuming every row has a unique ID
     dict_difference=(s ^ set(df_old['ID']))
     final_df=df_new[df_new['ID'].isin(dict_difference)]
     final_df
     from unidecode import unidecode
-    final_df[['Contact Name','Subject']]=final_df[['Contact Name','Subject']].apply(lambda x : x.replace("\'"," ")) #Replace apostrophe
+    final_df[['Contact Name','Subject']]=final_df[['Contact Name','Subject']].apply(lambda x : x.replace("\'"," ")) # Replace apostrophe
     final_df[['Contact Name','Subject']]=final_df[['Contact Name','Subject']].apply(lambda x : x.replace(","," ")) # Replace comma
     final_df['Contact Name']=final_df['Contact Name'].apply(lambda x : unidecode(x)) # Replace european alphabets
-    #Now delete all previous files
+    # Now delete all previous files
     for root, dirs, files in os.walk('your-folder'):
         for f in files:
             os.unlink(os.path.join(root, f))
@@ -119,9 +119,7 @@ if unique_csv_path:
 
 
 def list_objects_in_folder(bucket_name, folder_name):
-    # Create an S3 client
-    #s3 = boto3.client('s3', aws_access_key_id='your-access-key', aws_secret_access_key='your-secret-key',region_name='your-region')
-
+    
     # Recursive function to list and delete objects
     def list_and_delete_objects(prefix):
         response = s3.list_objects_v2(
@@ -139,6 +137,8 @@ def list_objects_in_folder(bucket_name, folder_name):
 
 
 # Example usage:
+# Create an S3 client
+s3 = boto3.client('s3', aws_access_key_id='your-access-key', aws_secret_access_key='your-secret-key',region_name='your-region')
 bucket_name='your-bucket'
 folder_name='your-folder/'  # Don't forget to include the trailing slash
 list_objects_in_folder(bucket_name, folder_name)
