@@ -7,6 +7,6 @@ Automatically forward specific Gmail attachments to S3 bucket
 # Steps:
 1. Enable IMAP on Gmail
 2. Find your app password (not gmail password)
-3. Put your AWS access key and secret key here (or use a credentials file)
+3. Put your AWS access key and secret key (or use a credentials file)
 4. Create a folder on your disk and place its relative path in the code. This will contain your attachments
 5. Automate it using Task Scheduler or cronjob.
