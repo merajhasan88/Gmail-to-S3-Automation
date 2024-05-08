@@ -104,7 +104,7 @@ def get_latest_unique_data(folder_path):
     from datetime import datetime
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y %H-%M-%S")
-    file_name='your-folder\DeltaFile'+dt_string+'.csv'
+    file_name='your-folder\DeltaFile'+dt_string+'.csv' # When a new file comes, this will be the old file
     print('Created ',file_name)
     final_df.to_csv(file_name,index=False)
     return file_name
