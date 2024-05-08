@@ -105,9 +105,7 @@ else:
 
 def list_objects_in_folder(bucket_name, folder_name):
     
-    # Create an S3 client
-    s3 = boto3.client('s3', aws_access_key_id='your-access-key', aws_secret_access_key='your-secret-key',region_name='your-region')
-
+    
     # Recursive function to list and delete objects
     def list_and_delete_objects(prefix):
         response = s3.list_objects_v2(
@@ -124,14 +122,14 @@ def list_objects_in_folder(bucket_name, folder_name):
     list_and_delete_objects(folder_name)
 
 
-
+# Create an S3 client
+s3 = boto3.client('s3', aws_access_key_id='your-access-key', aws_secret_access_key='your-secret-key',region_name='your-region')
 bucket_name="your-s3-bucket"
 folder_name="your-folder/"
 # Don't forget to include the trailing slash
 list_objects_in_folder(bucket_name, folder_name)
 print('finished')
 
-s3 = boto3.client('s3', aws_access_key_id='your-access-key', aws_secret_access_key='your-secret-key',region_name='your-region')
 key = os.path.join(folder_name, most_recent_csv_path)  # Combine folder name and filename as the key
 s3.upload_file(most_recent_csv_path, bucket_name, key)
 print ('File uploaded Successfully')
